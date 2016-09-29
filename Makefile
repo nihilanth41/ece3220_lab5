@@ -1,2 +1,2 @@
-lab4:
-	gcc -o lab4.bin -g lab4.c
+lab5:
+	gcc -o lab5.bin -g lab5.c

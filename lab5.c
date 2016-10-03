@@ -25,10 +25,10 @@ double transform[2000] = { 0 };
 int main(int argc, char **argv) {
 	char opt, filename[32], outfilename[32];
 	int len;
-	double offset, scaling, factor;
+	double offset, scaling;
 
 	// Command line args
-	int fileno = 0, writeStat=0, writeNorm=0, writeCenter=0;
+	int fileNo = 0, writeStat=0, writeNorm=0, writeCenter=0;
 	char *file_rename = NULL;
 
 	// # of file to open is cmd line arg
@@ -57,8 +57,8 @@ int main(int argc, char **argv) {
 				case 'n': { 
 							  if(i+1 < argc)
 							  {
-								  fileno = atoi(argv[i+1]); 
-							      sprintf(filename, "Raw_data_%02d.txt", fileno);
+								  fileNo = atoi(argv[i+1]); 
+							      sprintf(filename, "Raw_data_%02d.txt", fileNo);
 							  }
 							  break; 
 						  }
@@ -66,14 +66,14 @@ int main(int argc, char **argv) {
 				case 'o': { 
 							  if(i+1 < argc)
 							  {
-								  offset = atoi(argv[i+1]);
+								  offset = strtod(argv[i+1], NULL);
 							  }
 							  break;
 						  }
 				case 's': { 
 							  if(i+1 < argc)
 							  {
-								scaling = atoi(argv[i+1]); 
+								scaling = strtod(argv[i+1], NULL); 
 							  }
 							  break; 
 						  }
@@ -90,7 +90,7 @@ int main(int argc, char **argv) {
 			}
 		}
 	}
-	if(fileno == 0)
+	if(fileNo == 0)
 	{
 			printf("Need more arguments\n");
 			print_help(argv[0]);
@@ -103,7 +103,7 @@ int main(int argc, char **argv) {
 	}
 
 	//// Open file and populate global array
-	sprintf(filename, "Raw_data_%02d.txt", fileno);
+	sprintf(filename, "Raw_data_%02d.txt", fileNo);
 	printf("Input file is: %s\n", filename);
 	len = populate_array(filename);
 	if(len == -1) { return EXIT_FAILURE; }
@@ -120,7 +120,7 @@ int main(int argc, char **argv) {
 				  }
 				  if(file_rename == NULL)
 				  {
-					  sprintf(outfilename, "Offset_data_%02d.txt", fileno); 
+					  sprintf(outfilename, "Offset_data_%02d.txt", fileNo); 
 				  }
 				  else
 				  {
@@ -140,7 +140,7 @@ int main(int argc, char **argv) {
 			}
 			if(file_rename == NULL)
 			{
-				sprintf(outfilename, "Scaled_data_%02d.txt", fileno); 
+				sprintf(outfilename, "Scaled_data_%02d.txt", fileNo); 
 			}
 			else
 			{
@@ -172,7 +172,7 @@ int main(int argc, char **argv) {
 		}
 		if(file_rename == NULL)
 		{
-			sprintf(outfilename, "Centered_data_%02d.txt", fileno);
+			sprintf(outfilename, "Centered_data_%02d.txt", fileNo);
 		}
 		else
 		{
@@ -192,7 +192,7 @@ int main(int argc, char **argv) {
 		}
 		if(file_rename == NULL)
 		{
-			sprintf(outfilename, "Normalized_data_%02d.txt", fileno);
+			sprintf(outfilename, "Normalized_data_%02d.txt", fileNo);
 		}
 		else
 		{

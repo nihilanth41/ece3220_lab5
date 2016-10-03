@@ -150,17 +150,10 @@ int main(int argc, char **argv) {
 	}
 
 	// Statistics
-	//// Find mean and max and write them to a file
-	//sprintf(outfilename, "Statistics_data_%02d.txt", atoi(argv[1]));
+	//// Find mean and max 
 	int *iPtr = signal;
 	double average = mean_value(iPtr, len);
 	int maximum = max_value(iPtr, len);
-	//fp_w = fopen(outfilename, "w");
-	//if(fp_w != NULL)
-	//{
-	//	fprintf(fp_w, "%0.4lf, %02d", average, maximum);
-	//	fclose(fp_w);
-	//}
 
 	// Center the signal
 	if(writeCenter)
@@ -201,6 +194,29 @@ int main(int argc, char **argv) {
 		write_file(outfilename, len, scaling);
 	}
 
+	// Check if -r option is passed by itself. 
+	// In that case copy the original file 
+	if(file_rename != NULL && ( !((int)scaling) && !((int)offset) ))  
+	{
+		FILE *fp_r, *fp_w;
+		char buf[256];
+		// Didn't design this well 
+		// At this point its easiest to just read the original file again
+		sprintf(outfilename, "%s.txt", file_rename);
+		printf("Copying file %s to %s\n", filename, outfilename);
+		fp_r=fopen(filename, "r");
+		fp_w=fopen(outfilename, "w");
+		if(fp_w != NULL && fp_r != NULL)
+		{
+			while(fgets(buf, 256, fp_r))
+			{
+				fprintf(fp_w, "%s", buf);
+			}
+		}
+		fclose(fp_w);
+		fclose(fp_r);
+	}
+		
 	return 0;
 }
 

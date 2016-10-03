@@ -104,13 +104,14 @@ int main(int argc, char **argv) {
 
 	//// Open file and populate global array
 	sprintf(filename, "Raw_data_%02d.txt", fileno);
-	printf("Filename is: %s\n", filename);
+	printf("Input file is: %s\n", filename);
 	len = populate_array(filename);
 	if(len == -1) { return EXIT_FAILURE; }
 
 	// Offset
-	if(offset != 0)
+	if((int)offset != 0)
 	{
+		printf("Offset value %lf\n", offset);
 
 				  int i=0;
 				  for(i=0; i<len; i++) 
@@ -129,8 +130,9 @@ int main(int argc, char **argv) {
 	}
 
 	// Scaling
-	if(scaling != 0)
+	if((int)scaling != 0)
 	{
+		printf("Scaling value: %lf\n", scaling);
 			int i=0;
 			for(i=0; i<len; i++) 
 			{

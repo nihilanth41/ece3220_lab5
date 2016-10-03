@@ -194,9 +194,32 @@ int main(int argc, char **argv) {
 		write_file(outfilename, len, scaling);
 	}
 
+	if(writeStat)
+	{
+		if(file_rename == NULL)
+		{
+			sprintf(outfilename, "Statistics_data_%02d.txt", fileNo);
+		}
+		else
+		{
+			sprintf(outfilename, "%s_Statistics.txt", file_rename);
+		}
+		printf("Writing file %s\n", outfilename);
+		// Find mean and max and write them to a file
+		int *iPtr = signal;
+		double average = mean_value(iPtr, len);
+		int maximum = max_value(iPtr, len);
+		FILE *fp_w = fopen(outfilename, "w");
+		if(fp_w != NULL)
+		{
+			fprintf(fp_w, "%1.4lf, %02d", average, maximum);
+		}
+		fclose(fp_w);
+	}
+
 	// Check if -r option is passed by itself. 
 	// In that case copy the original file 
-	if(file_rename != NULL && ( !((int)scaling) && !((int)offset) ))  
+	if(file_rename != NULL && ( !((int)scaling) && !((int)offset) && !writeStat && !writeNorm && !writeCenter ))  
 	{
 		FILE *fp_r, *fp_w;
 		char buf[256];
